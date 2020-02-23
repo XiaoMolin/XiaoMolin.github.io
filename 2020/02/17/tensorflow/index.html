@@ -73,6 +73,10 @@
 
 
 
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="林小墨的博客" type="application/atom+xml" />
 
 
 
@@ -87,7 +91,7 @@
 <meta property="og:description" content="使用tensorflow2.0 进行线性拟合拟合直线：y&#x3D;0.1x+0.3，很简单机器学习任务，思路很简单就是初始化Weight，biases，使用损失函数MSE来判断拟合的效果，使用梯度下降进行参数的更新。其实就是一个最小二乘法。 12345from tensorflow.compat.v1 import ConfigProtofrom tensorflow.compat.v1 import I">
 <meta property="article:published_time" content="2020-02-17T07:52:31.000Z">
 <meta property="article:modified_time" content="2020-02-18T09:43:05.340Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="林小墨">
 <meta property="article:tag" content="tensorflow">
 <meta name="twitter:card" content="summary">
 
@@ -213,7 +217,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
             归档
           </a>
@@ -255,9 +259,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/17/tensorflow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="林小墨">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="http://106.52.96.101/images/Avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -322,6 +326,11 @@
           
           
 
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
           
 
           
@@ -464,7 +473,11 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">John Doe</p>
+              <img class="site-author-image" itemprop="image"
+                src="http://106.52.96.101/images/Avatar.jpg"
+                alt="林小墨" />
+            
+              <p class="site-author-name" itemprop="name">林小墨</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -473,9 +486,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives/%7C%7Carchive">
+                <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -505,6 +518,13 @@
 
           </nav>
 
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
           
 
           
@@ -564,7 +584,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">林小墨</span>
 
   
 </div>
@@ -584,6 +604,26 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
 
 
 
@@ -625,6 +665,8 @@
   
 
 
+  
+
 
 
 
@@ -663,6 +705,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
