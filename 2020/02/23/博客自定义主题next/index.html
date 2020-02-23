@@ -93,8 +93,9 @@
 <meta property="og:image" content="http://106.52.96.101/images/blog/boke/avatar3.jpg">
 <meta property="og:image" content="http://106.52.96.101/images/blog/boke/avator4.jpg">
 <meta property="og:image" content="http://106.52.96.101/images/blog/boke/avatar5.jpg">
+<meta property="og:image" content="http://106.52.96.101/images/blog/boke/num.jpg">
 <meta property="article:published_time" content="2020-02-23T06:33:38.000Z">
-<meta property="article:modified_time" content="2020-02-23T07:11:29.402Z">
+<meta property="article:modified_time" content="2020-02-23T08:07:33.355Z">
 <meta property="article:author" content="林小墨">
 <meta property="article:tag" content="博客">
 <meta name="twitter:card" content="summary">
@@ -364,14 +365,18 @@
 <p>修改成：</p>
 <p><img src="http://106.52.96.101/images/blog/boke/avatar5.jpg" alt=""></p>
 <h3 id="设置动态背景"><a href="#设置动态背景" class="headerlink" title="设置动态背景"></a>设置动态背景</h3><p>编辑 <strong>主题配置文件</strong>， 搜索 <code>canvas_nest</code> 或 <code>three_waves</code>，根据您的需求设置值为 <code>true</code> 或者 <code>false</code> 即可：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># canvas_nest</span><br><span class="line">canvas_nest: true &#x2F;&#x2F;开启动画</span><br><span class="line">canvas_nest: false &#x2F;&#x2F;关闭动画</span><br><span class="line"></span><br><span class="line"># three_waves</span><br><span class="line">three_waves: true &#x2F;&#x2F;开启动画</span><br><span class="line">three_waves: false &#x2F;&#x2F;关闭动画</span><br></pre></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># canvas_nest</span></span><br><span class="line"><span class="attr">canvas_nest:</span> <span class="literal">true</span> <span class="string">//开启动画</span></span><br><span class="line"><span class="attr">canvas_nest:</span> <span class="literal">false</span> <span class="string">//关闭动画</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># three_waves</span></span><br><span class="line"><span class="attr">three_waves:</span> <span class="literal">true</span> <span class="string">//开启动画</span></span><br><span class="line"><span class="attr">three_waves:</span> <span class="literal">false</span> <span class="string">//关闭动画</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="设置RSS"><a href="#设置RSS" class="headerlink" title="设置RSS"></a>设置RSS</h3><p>在hexo的根目录下执行命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-feed --save</span><br></pre></td></tr></table></figure>
 
 <p>在根目录下的/theme/next/_config.yml文件中添加配置：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">feed:</span><br><span class="line">    type: rss2</span><br><span class="line">    path: rss2.xml</span><br><span class="line">    limit: 5</span><br><span class="line">    hub:</span><br><span class="line">    content: &#39;true&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feed:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">rss2</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">rss2.xml</span></span><br><span class="line">    <span class="attr">limit:</span> <span class="number">5</span></span><br><span class="line">    <span class="attr">hub:</span></span><br><span class="line">    <span class="attr">content:</span> <span class="string">'true'</span></span><br></pre></td></tr></table></figure>
 
+<h3 id="设置访问量观看"><a href="#设置访问量观看" class="headerlink" title="设置访问量观看"></a>设置访问量观看</h3><p>在根目录下的/theme/next/_config.yml文件中修改配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">busuanzi_count:</span></span><br><span class="line">  <span class="comment"># count values only if the other configs are false</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># custom uv span for the whole site</span></span><br><span class="line">  <span class="attr">site_uv:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">site_uv_header:</span> <span class="string">&lt;i</span> <span class="string">class="fa</span> <span class="string">fa-user"&gt;&lt;/i&gt;访问人数</span></span><br><span class="line">  <span class="attr">site_uv_footer:</span></span><br><span class="line">  <span class="comment"># custom pv span for the whole site</span></span><br><span class="line">  <span class="attr">site_pv:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">site_pv_header:</span> <span class="string">&lt;i</span> <span class="string">class="fa</span> <span class="string">fa-eye"&gt;&lt;/i&gt;总访问量</span></span><br><span class="line">  <span class="attr">site_pv_footer:</span> <span class="string">次</span></span><br><span class="line">  <span class="comment"># custom pv span for one page only</span></span><br><span class="line">  <span class="attr">page_pv:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">page_pv_header:</span> <span class="string">&lt;i</span> <span class="string">class="fa</span> <span class="string">fa-file-o"&gt;&lt;/i&gt;浏览</span></span><br><span class="line">  <span class="attr">page_pv_footer:</span> <span class="string">次</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://106.52.96.101/images/blog/boke/num.jpg" alt=""></p>
 
       
     </div>
@@ -563,7 +568,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#头像设置"><span class="nav-number">1.</span> <span class="nav-text">头像设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置动态背景"><span class="nav-number">2.</span> <span class="nav-text">设置动态背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置RSS"><span class="nav-number">3.</span> <span class="nav-text">设置RSS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#头像设置"><span class="nav-number">1.</span> <span class="nav-text">头像设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置动态背景"><span class="nav-number">2.</span> <span class="nav-text">设置动态背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置RSS"><span class="nav-number">3.</span> <span class="nav-text">设置RSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置访问量观看"><span class="nav-number">4.</span> <span class="nav-text">设置访问量观看</span></a></li></ol></div>
             
 
           </div>
@@ -792,6 +797,21 @@
   
 
   
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
   
