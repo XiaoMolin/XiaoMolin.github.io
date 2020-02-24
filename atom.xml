@@ -97,32 +97,6 @@
   </entry>
   
   <entry>
-    <title>tensorflow学习(一)</title>
-    <link href="http://yoursite.com/2020/02/17/tensorflow/"/>
-    <id>http://yoursite.com/2020/02/17/tensorflow/</id>
-    <published>2020-02-17T07:52:31.000Z</published>
-    <updated>2020-02-18T09:43:05.340Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="使用tensorflow2-0-进行线性拟合"><a href="#使用tensorflow2-0-进行线性拟合" class="headerlink" title="使用tensorflow2.0 进行线性拟合"></a>使用tensorflow2.0 进行线性拟合</h2><p>拟合直线：y=0.1x+0.3，很简单机器学习任务，思路很简单就是初始化Weight，biases，使用损失函数MSE来判断拟合的效果，使用梯度下降进行参数的更新。其实就是一个最小二乘法。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.compat.v1 <span class="keyword">import</span> ConfigProto</span><br><span class="line"><span class="keyword">from</span> tensorflow.compat.v1 <span class="keyword">import</span> InteractiveSession</span><br><span class="line">config = ConfigProto()</span><br><span class="line">config.gpu_options.allow_growth = <span class="literal">True</span></span><br><span class="line">session = InteractiveSession(config=config)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow.compat.v1 <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure><p>创建数据</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#create data</span><br><span class="line">x_data &#x3D;np.random.rand(100).astype(np.float32)</span><br><span class="line">y_data &#x3D;x_data*0.1+0.3</span><br></pre></td></tr></table></figure><p>创建训练模型</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create tensorflow structure</span></span><br><span class="line">Weights = tf.Variable(tf.random.uniform((<span class="number">1</span>,), <span class="number">-1.0</span>, <span class="number">1.0</span>))</span><br><span class="line">biases = tf.Variable(tf.zeros((<span class="number">1</span>,)))</span><br><span class="line"></span><br><span class="line">loss = <span class="keyword">lambda</span>: tf.keras.losses.MSE(y_data, Weights * x_data + biases)  </span><br><span class="line"><span class="comment"># alias: tf.losses.mse</span></span><br><span class="line">optimizer = tf.keras.optimizers.SGD(learning_rate=<span class="number">0.5</span>)  </span><br><span class="line"><span class="comment"># alias: tf.optimizers.SGD</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> step <span class="keyword">in</span> range(<span class="number">201</span>):</span><br><span class="line">    optimizer.minimize(loss, var_list=[Weights, biases])</span><br><span class="line">    <span class="keyword">if</span> step % <span class="number">20</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"&#123;&#125; step, weights = &#123;&#125;, biases = &#123;&#125;"</span>.format(step, Weights.read_value(), biases.read_value()))  <span class="comment"># read_value函数可用numpy替换</span></span><br></pre></td></tr></table></figure><p>运行结果</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">0 step, weights &#x3D; [-0.07186383], biases &#x3D; [0.53049165]</span><br><span class="line">20 step, weights &#x3D; [0.04541961], biases &#x3D; [0.32863754]</span><br><span class="line">40 step, weights &#x3D; [0.08702482], biases &#x3D; [0.3068079]</span><br><span class="line">60 step, weights &#x3D; [0.09691547], biases &#x3D; [0.30161843]</span><br><span class="line">80 step, weights &#x3D; [0.09926673], biases &#x3D; [0.30038476]</span><br><span class="line">100 step, weights &#x3D; [0.0998257], biases &#x3D; [0.30009148]</span><br><span class="line">120 step, weights &#x3D; [0.09995857], biases &#x3D; [0.30002174]</span><br><span class="line">140 step, weights &#x3D; [0.09999017], biases &#x3D; [0.30000517]</span><br><span class="line">160 step, weights &#x3D; [0.09999766], biases &#x3D; [0.30000123]</span><br><span class="line">180 step, weights &#x3D; [0.09999946], biases &#x3D; [0.3000003]</span><br><span class="line">200 step, weights &#x3D; [0.09999989], biases &#x3D; [0.30000007]</span><br></pre></td></tr></table></figure><p>最终预测出的答案和正确答案很接近</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;使用tensorflow2-0-进行线性拟合&quot;&gt;&lt;a href=&quot;#使用tensorflow2-0-进行线性拟合&quot; class=&quot;headerlink&quot; title=&quot;使用tensorflow2.0 进行线性拟合&quot;&gt;&lt;/a&gt;使用tensorflow2.0 进行线性
-      
-    
-    </summary>
-    
-    
-      <category term="tensorflow" scheme="http://yoursite.com/categories/tensorflow/"/>
-    
-    
-      <category term="tensorflow" scheme="http://yoursite.com/tags/tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
     <title>tensorflow API学习(一)</title>
     <link href="http://yoursite.com/2020/02/17/tf%E7%9A%84api/"/>
     <id>http://yoursite.com/2020/02/17/tf%E7%9A%84api/</id>
@@ -136,6 +110,32 @@
       
       
         &lt;h3 id=&quot;Session&quot;&gt;&lt;a href=&quot;#Session&quot; class=&quot;headerlink&quot; title=&quot;Session&quot;&gt;&lt;/a&gt;Session&lt;/h3&gt;&lt;p&gt;Tensorflow是基于图（Graph）的计算系统。而图的节点则是由操作（Operation）来构
+      
+    
+    </summary>
+    
+    
+      <category term="tensorflow" scheme="http://yoursite.com/categories/tensorflow/"/>
+    
+    
+      <category term="tensorflow" scheme="http://yoursite.com/tags/tensorflow/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>tensorflow学习(一)</title>
+    <link href="http://yoursite.com/2020/02/17/tensorflow/"/>
+    <id>http://yoursite.com/2020/02/17/tensorflow/</id>
+    <published>2020-02-17T07:52:31.000Z</published>
+    <updated>2020-02-18T09:43:05.340Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="使用tensorflow2-0-进行线性拟合"><a href="#使用tensorflow2-0-进行线性拟合" class="headerlink" title="使用tensorflow2.0 进行线性拟合"></a>使用tensorflow2.0 进行线性拟合</h2><p>拟合直线：y=0.1x+0.3，很简单机器学习任务，思路很简单就是初始化Weight，biases，使用损失函数MSE来判断拟合的效果，使用梯度下降进行参数的更新。其实就是一个最小二乘法。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.compat.v1 <span class="keyword">import</span> ConfigProto</span><br><span class="line"><span class="keyword">from</span> tensorflow.compat.v1 <span class="keyword">import</span> InteractiveSession</span><br><span class="line">config = ConfigProto()</span><br><span class="line">config.gpu_options.allow_growth = <span class="literal">True</span></span><br><span class="line">session = InteractiveSession(config=config)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow.compat.v1 <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure><p>创建数据</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#create data</span><br><span class="line">x_data &#x3D;np.random.rand(100).astype(np.float32)</span><br><span class="line">y_data &#x3D;x_data*0.1+0.3</span><br></pre></td></tr></table></figure><p>创建训练模型</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create tensorflow structure</span></span><br><span class="line">Weights = tf.Variable(tf.random.uniform((<span class="number">1</span>,), <span class="number">-1.0</span>, <span class="number">1.0</span>))</span><br><span class="line">biases = tf.Variable(tf.zeros((<span class="number">1</span>,)))</span><br><span class="line"></span><br><span class="line">loss = <span class="keyword">lambda</span>: tf.keras.losses.MSE(y_data, Weights * x_data + biases)  </span><br><span class="line"><span class="comment"># alias: tf.losses.mse</span></span><br><span class="line">optimizer = tf.keras.optimizers.SGD(learning_rate=<span class="number">0.5</span>)  </span><br><span class="line"><span class="comment"># alias: tf.optimizers.SGD</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> step <span class="keyword">in</span> range(<span class="number">201</span>):</span><br><span class="line">    optimizer.minimize(loss, var_list=[Weights, biases])</span><br><span class="line">    <span class="keyword">if</span> step % <span class="number">20</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"&#123;&#125; step, weights = &#123;&#125;, biases = &#123;&#125;"</span>.format(step, Weights.read_value(), biases.read_value()))  <span class="comment"># read_value函数可用numpy替换</span></span><br></pre></td></tr></table></figure><p>运行结果</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">0 step, weights &#x3D; [-0.07186383], biases &#x3D; [0.53049165]</span><br><span class="line">20 step, weights &#x3D; [0.04541961], biases &#x3D; [0.32863754]</span><br><span class="line">40 step, weights &#x3D; [0.08702482], biases &#x3D; [0.3068079]</span><br><span class="line">60 step, weights &#x3D; [0.09691547], biases &#x3D; [0.30161843]</span><br><span class="line">80 step, weights &#x3D; [0.09926673], biases &#x3D; [0.30038476]</span><br><span class="line">100 step, weights &#x3D; [0.0998257], biases &#x3D; [0.30009148]</span><br><span class="line">120 step, weights &#x3D; [0.09995857], biases &#x3D; [0.30002174]</span><br><span class="line">140 step, weights &#x3D; [0.09999017], biases &#x3D; [0.30000517]</span><br><span class="line">160 step, weights &#x3D; [0.09999766], biases &#x3D; [0.30000123]</span><br><span class="line">180 step, weights &#x3D; [0.09999946], biases &#x3D; [0.3000003]</span><br><span class="line">200 step, weights &#x3D; [0.09999989], biases &#x3D; [0.30000007]</span><br></pre></td></tr></table></figure><p>最终预测出的答案和正确答案很接近</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;使用tensorflow2-0-进行线性拟合&quot;&gt;&lt;a href=&quot;#使用tensorflow2-0-进行线性拟合&quot; class=&quot;headerlink&quot; title=&quot;使用tensorflow2.0 进行线性拟合&quot;&gt;&lt;/a&gt;使用tensorflow2.0 进行线性
       
     
     </summary>
