@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-08T03:57:50.825Z</updated>
+  <updated>2020-03-15T02:33:24.153Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,77 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>力扣-16</title>
+    <link href="http://yoursite.com/2020/03/15/%E5%8A%9B%E6%89%A3-16/"/>
+    <id>http://yoursite.com/2020/03/15/%E5%8A%9B%E6%89%A3-16/</id>
+    <published>2020-03-15T02:33:24.000Z</published>
+    <updated>2020-03-15T02:33:24.153Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>力扣-1184</title>
+    <link href="http://yoursite.com/2020/03/15/%E5%8A%9B%E6%89%A3-1184/"/>
+    <id>http://yoursite.com/2020/03/15/%E5%8A%9B%E6%89%A3-1184/</id>
+    <published>2020-03-15T02:29:34.000Z</published>
+    <updated>2020-03-15T02:32:48.999Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="1184-公交站间的距离"><a href="#1184-公交站间的距离" class="headerlink" title="1184. 公交站间的距离"></a><a href="https://leetcode-cn.com/problems/distance-between-bus-stops/" target="_blank" rel="noopener">1184. 公交站间的距离</a></h4><p>难度简单16</p><p>环形公交路线上有 <code>n</code> 个站，按次序从 <code>0</code> 到 <code>n - 1</code> 进行编号。我们已知每一对相邻公交站之间的距离，<code>distance[i]</code> 表示编号为 <code>i</code> 的车站和编号为 <code>(i + 1) % n</code> 的车站之间的距离。</p><p>环线上的公交车都可以按顺时针和逆时针的方向行驶。</p><p>返回乘客从出发点 <code>start</code> 到目的地 <code>destination</code> 之间的最短距离。</p><p><strong>示例 1：</strong></p><p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2019/09/08/untitled-diagram-1.jpg" alt="img"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：distance &#x3D; [1,2,3,4], start &#x3D; 0, destination &#x3D; 1</span><br><span class="line">输出：1</span><br><span class="line">解释：公交站 0 和 1 之间的距离是 1 或 9，最小值是 1。</span><br></pre></td></tr></table></figure><p><strong>示例 2：</strong></p><p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2019/09/08/untitled-diagram-1-1.jpg" alt="img"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：distance &#x3D; [1,2,3,4], start &#x3D; 0, destination &#x3D; 2</span><br><span class="line">输出：3</span><br><span class="line">解释：公交站 0 和 2 之间的距离是 3 或 7，最小值是 3。</span><br></pre></td></tr></table></figure><p><strong>示例 3：</strong></p><p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2019/09/08/untitled-diagram-1-2.jpg" alt="img"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：distance &#x3D; [1,2,3,4], start &#x3D; 0, destination &#x3D; 3</span><br><span class="line">输出：4</span><br><span class="line">解释：公交站 0 和 3 之间的距离是 6 或 4，最小值是 4。</span><br></pre></td></tr></table></figure><p><strong>提示：</strong></p><ul><li><code>1 &lt;= n &lt;= 10^4</code></li><li><code>distance.length == n</code></li><li><code>0 &lt;= start, destination &lt; n</code></li><li><code>0 &lt;= distance[i] &lt;= 10^4</code></li></ul><p>代码：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">distanceBetweenBusStops</span><span class="params">(distance []<span class="keyword">int</span>, start <span class="keyword">int</span>, destination <span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line"><span class="keyword">var</span> result <span class="keyword">int</span></span><br><span class="line">i := start</span><br><span class="line">j := destination</span><br><span class="line">result1 := <span class="number">0</span></span><br><span class="line">result2 := <span class="number">0</span></span><br><span class="line"><span class="keyword">if</span> i == j &#123;</span><br><span class="line">result = <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> i &lt; j &#123;</span><br><span class="line">x := j - i</span><br><span class="line"><span class="keyword">for</span> x &gt; <span class="number">0</span> &#123;</span><br><span class="line">result1 += distance[i]</span><br><span class="line">i++</span><br><span class="line">x--</span><br><span class="line">&#125;</span><br><span class="line">i = start</span><br><span class="line">y := <span class="built_in">len</span>(distance) + i - j</span><br><span class="line"><span class="keyword">for</span> y &gt; <span class="number">0</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> i == <span class="number">0</span> &#123;</span><br><span class="line">i = <span class="built_in">len</span>(distance)</span><br><span class="line">&#125;</span><br><span class="line">result2 += distance[i<span class="number">-1</span>]</span><br><span class="line">i--</span><br><span class="line"><span class="keyword">if</span> i == <span class="number">0</span> &#123;</span><br><span class="line">i = <span class="built_in">len</span>(distance)</span><br><span class="line">&#125;</span><br><span class="line">y--</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> i &gt; j &#123;</span><br><span class="line">x := <span class="built_in">len</span>(distance) - i + j</span><br><span class="line"><span class="keyword">for</span> x &gt; <span class="number">0</span> &#123;</span><br><span class="line">result1 += distance[i]</span><br><span class="line">i++</span><br><span class="line"><span class="keyword">if</span> i == <span class="built_in">len</span>(distance) &#123;</span><br><span class="line">i = <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line">x--</span><br><span class="line">&#125;</span><br><span class="line">i = start</span><br><span class="line">y := i - j</span><br><span class="line"><span class="keyword">for</span> y &gt; <span class="number">0</span> &#123;</span><br><span class="line">result2 += distance[i<span class="number">-1</span>]</span><br><span class="line">i--</span><br><span class="line">y--</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> result1 &lt; result2 &#123;</span><br><span class="line">result = result1</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">result = result2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>结果：</p><p><img src="https://www.lxmcloud.cn/images/blog/leetcode/lc1184.jpg" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;1184-公交站间的距离&quot;&gt;&lt;a href=&quot;#1184-公交站间的距离&quot; class=&quot;headerlink&quot; title=&quot;1184. 公交站间的距离&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/distanc
+      
+    
+    </summary>
+    
+    
+      <category term="力扣" scheme="http://yoursite.com/categories/%E5%8A%9B%E6%89%A3/"/>
+    
+      <category term="1184" scheme="http://yoursite.com/categories/%E5%8A%9B%E6%89%A3/1184/"/>
+    
+    
+      <category term="力扣" scheme="http://yoursite.com/tags/%E5%8A%9B%E6%89%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>力扣-415</title>
+    <link href="http://yoursite.com/2020/03/15/%E5%8A%9B%E6%89%A3-415/"/>
+    <id>http://yoursite.com/2020/03/15/%E5%8A%9B%E6%89%A3-415/</id>
+    <published>2020-03-15T02:14:56.000Z</published>
+    <updated>2020-03-15T02:29:00.733Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="415-字符串相加"><a href="#415-字符串相加" class="headerlink" title="415. 字符串相加"></a><a href="https://leetcode-cn.com/problems/add-strings/" target="_blank" rel="noopener">415. 字符串相加</a></h4><p>难度简单142</p><p>给定两个字符串形式的非负整数 <code>num1</code> 和<code>num2</code> ，计算它们的和。</p><p><strong>注意：</strong></p><ol><li><code>num1</code> 和<code>num2</code> 的长度都小于 5100.</li><li><code>num1</code> 和<code>num2</code> 都只包含数字 <code>0-9</code>.</li><li><code>num1</code> 和<code>num2</code> 都不包含任何前导零。</li><li><strong>你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式。</strong></li></ol><p>分析：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">双指针法，从末位开始依次相加，判断是否进位，始终用x表示双指针的和，若大于10则下一轮初始为1（表示进位）</span><br><span class="line">因为每一次计算结果按照顺序存放入result，因此答案需要反转</span><br></pre></td></tr></table></figure><p>代码：</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">addStrings</span><span class="params">(num1 <span class="keyword">string</span>, num2 <span class="keyword">string</span>)</span> <span class="title">string</span></span> &#123;</span><br><span class="line">l1 := <span class="built_in">len</span>(num1) - <span class="number">1</span></span><br><span class="line">l2 := <span class="built_in">len</span>(num2) - <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> x <span class="keyword">byte</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> result = []<span class="keyword">byte</span>&#123;&#125;</span><br><span class="line"><span class="keyword">for</span> l1 &gt;= <span class="number">0</span> || l2 &gt;= <span class="number">0</span> || x != <span class="number">0</span> &#123;</span><br><span class="line"><span class="keyword">if</span> l1 &gt;= <span class="number">0</span> &#123;</span><br><span class="line">x += (num1[l1] - <span class="string">'0'</span>)</span><br><span class="line">l1--</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> l2 &gt;= <span class="number">0</span> &#123;</span><br><span class="line">x += (num2[l2] - <span class="string">'0'</span>)</span><br><span class="line">l2--</span><br><span class="line">&#125;</span><br><span class="line">result = <span class="built_in">append</span>(result, (x%<span class="number">10</span>)+<span class="string">'0'</span>)</span><br><span class="line">x = x / <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> i, j := <span class="number">0</span>, <span class="built_in">len</span>(result)<span class="number">-1</span>; i &lt; j; i, j = i+<span class="number">1</span>, j<span class="number">-1</span> &#123;</span><br><span class="line">result[i], result[j] = result[j], result[i]</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">string</span>(result)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>结果：</p><p><img src="https://www.lxmcloud.cn/images/blog/leetcode/lc415.jpg" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;415-字符串相加&quot;&gt;&lt;a href=&quot;#415-字符串相加&quot; class=&quot;headerlink&quot; title=&quot;415. 字符串相加&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/add-strings/&quot; ta
+      
+    
+    </summary>
+    
+    
+      <category term="力扣" scheme="http://yoursite.com/categories/%E5%8A%9B%E6%89%A3/"/>
+    
+      <category term="415" scheme="http://yoursite.com/categories/%E5%8A%9B%E6%89%A3/415/"/>
+    
+    
+      <category term="力扣" scheme="http://yoursite.com/tags/%E5%8A%9B%E6%89%A3/"/>
+    
+  </entry>
   
   <entry>
     <title>力扣#3</title>
@@ -181,32 +252,6 @@
   </entry>
   
   <entry>
-    <title>tensorflow学习(一)</title>
-    <link href="http://yoursite.com/2020/02/17/tensorflow/"/>
-    <id>http://yoursite.com/2020/02/17/tensorflow/</id>
-    <published>2020-02-17T07:52:31.000Z</published>
-    <updated>2020-02-18T09:43:05.340Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="使用tensorflow2-0-进行线性拟合"><a href="#使用tensorflow2-0-进行线性拟合" class="headerlink" title="使用tensorflow2.0 进行线性拟合"></a>使用tensorflow2.0 进行线性拟合</h2><p>拟合直线：y=0.1x+0.3，很简单机器学习任务，思路很简单就是初始化Weight，biases，使用损失函数MSE来判断拟合的效果，使用梯度下降进行参数的更新。其实就是一个最小二乘法。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.compat.v1 <span class="keyword">import</span> ConfigProto</span><br><span class="line"><span class="keyword">from</span> tensorflow.compat.v1 <span class="keyword">import</span> InteractiveSession</span><br><span class="line">config = ConfigProto()</span><br><span class="line">config.gpu_options.allow_growth = <span class="literal">True</span></span><br><span class="line">session = InteractiveSession(config=config)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow.compat.v1 <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure><p>创建数据</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#create data</span><br><span class="line">x_data &#x3D;np.random.rand(100).astype(np.float32)</span><br><span class="line">y_data &#x3D;x_data*0.1+0.3</span><br></pre></td></tr></table></figure><p>创建训练模型</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create tensorflow structure</span></span><br><span class="line">Weights = tf.Variable(tf.random.uniform((<span class="number">1</span>,), <span class="number">-1.0</span>, <span class="number">1.0</span>))</span><br><span class="line">biases = tf.Variable(tf.zeros((<span class="number">1</span>,)))</span><br><span class="line"></span><br><span class="line">loss = <span class="keyword">lambda</span>: tf.keras.losses.MSE(y_data, Weights * x_data + biases)  </span><br><span class="line"><span class="comment"># alias: tf.losses.mse</span></span><br><span class="line">optimizer = tf.keras.optimizers.SGD(learning_rate=<span class="number">0.5</span>)  </span><br><span class="line"><span class="comment"># alias: tf.optimizers.SGD</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> step <span class="keyword">in</span> range(<span class="number">201</span>):</span><br><span class="line">    optimizer.minimize(loss, var_list=[Weights, biases])</span><br><span class="line">    <span class="keyword">if</span> step % <span class="number">20</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"&#123;&#125; step, weights = &#123;&#125;, biases = &#123;&#125;"</span>.format(step, Weights.read_value(), biases.read_value()))  <span class="comment"># read_value函数可用numpy替换</span></span><br></pre></td></tr></table></figure><p>运行结果</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">0 step, weights &#x3D; [-0.07186383], biases &#x3D; [0.53049165]</span><br><span class="line">20 step, weights &#x3D; [0.04541961], biases &#x3D; [0.32863754]</span><br><span class="line">40 step, weights &#x3D; [0.08702482], biases &#x3D; [0.3068079]</span><br><span class="line">60 step, weights &#x3D; [0.09691547], biases &#x3D; [0.30161843]</span><br><span class="line">80 step, weights &#x3D; [0.09926673], biases &#x3D; [0.30038476]</span><br><span class="line">100 step, weights &#x3D; [0.0998257], biases &#x3D; [0.30009148]</span><br><span class="line">120 step, weights &#x3D; [0.09995857], biases &#x3D; [0.30002174]</span><br><span class="line">140 step, weights &#x3D; [0.09999017], biases &#x3D; [0.30000517]</span><br><span class="line">160 step, weights &#x3D; [0.09999766], biases &#x3D; [0.30000123]</span><br><span class="line">180 step, weights &#x3D; [0.09999946], biases &#x3D; [0.3000003]</span><br><span class="line">200 step, weights &#x3D; [0.09999989], biases &#x3D; [0.30000007]</span><br></pre></td></tr></table></figure><p>最终预测出的答案和正确答案很接近</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;使用tensorflow2-0-进行线性拟合&quot;&gt;&lt;a href=&quot;#使用tensorflow2-0-进行线性拟合&quot; class=&quot;headerlink&quot; title=&quot;使用tensorflow2.0 进行线性拟合&quot;&gt;&lt;/a&gt;使用tensorflow2.0 进行线性
-      
-    
-    </summary>
-    
-    
-      <category term="tensorflow" scheme="http://yoursite.com/categories/tensorflow/"/>
-    
-    
-      <category term="tensorflow" scheme="http://yoursite.com/tags/tensorflow/"/>
-    
-  </entry>
-  
-  <entry>
     <title>tensorflow API学习(一)</title>
     <link href="http://yoursite.com/2020/02/17/tf%E7%9A%84api/"/>
     <id>http://yoursite.com/2020/02/17/tf%E7%9A%84api/</id>
@@ -220,6 +265,32 @@
       
       
         &lt;h3 id=&quot;Session&quot;&gt;&lt;a href=&quot;#Session&quot; class=&quot;headerlink&quot; title=&quot;Session&quot;&gt;&lt;/a&gt;Session&lt;/h3&gt;&lt;p&gt;Tensorflow是基于图（Graph）的计算系统。而图的节点则是由操作（Operation）来构
+      
+    
+    </summary>
+    
+    
+      <category term="tensorflow" scheme="http://yoursite.com/categories/tensorflow/"/>
+    
+    
+      <category term="tensorflow" scheme="http://yoursite.com/tags/tensorflow/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>tensorflow学习(一)</title>
+    <link href="http://yoursite.com/2020/02/17/tensorflow/"/>
+    <id>http://yoursite.com/2020/02/17/tensorflow/</id>
+    <published>2020-02-17T07:52:31.000Z</published>
+    <updated>2020-02-18T09:43:05.340Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="使用tensorflow2-0-进行线性拟合"><a href="#使用tensorflow2-0-进行线性拟合" class="headerlink" title="使用tensorflow2.0 进行线性拟合"></a>使用tensorflow2.0 进行线性拟合</h2><p>拟合直线：y=0.1x+0.3，很简单机器学习任务，思路很简单就是初始化Weight，biases，使用损失函数MSE来判断拟合的效果，使用梯度下降进行参数的更新。其实就是一个最小二乘法。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tensorflow.compat.v1 <span class="keyword">import</span> ConfigProto</span><br><span class="line"><span class="keyword">from</span> tensorflow.compat.v1 <span class="keyword">import</span> InteractiveSession</span><br><span class="line">config = ConfigProto()</span><br><span class="line">config.gpu_options.allow_growth = <span class="literal">True</span></span><br><span class="line">session = InteractiveSession(config=config)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow.compat.v1 <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure><p>创建数据</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#create data</span><br><span class="line">x_data &#x3D;np.random.rand(100).astype(np.float32)</span><br><span class="line">y_data &#x3D;x_data*0.1+0.3</span><br></pre></td></tr></table></figure><p>创建训练模型</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create tensorflow structure</span></span><br><span class="line">Weights = tf.Variable(tf.random.uniform((<span class="number">1</span>,), <span class="number">-1.0</span>, <span class="number">1.0</span>))</span><br><span class="line">biases = tf.Variable(tf.zeros((<span class="number">1</span>,)))</span><br><span class="line"></span><br><span class="line">loss = <span class="keyword">lambda</span>: tf.keras.losses.MSE(y_data, Weights * x_data + biases)  </span><br><span class="line"><span class="comment"># alias: tf.losses.mse</span></span><br><span class="line">optimizer = tf.keras.optimizers.SGD(learning_rate=<span class="number">0.5</span>)  </span><br><span class="line"><span class="comment"># alias: tf.optimizers.SGD</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> step <span class="keyword">in</span> range(<span class="number">201</span>):</span><br><span class="line">    optimizer.minimize(loss, var_list=[Weights, biases])</span><br><span class="line">    <span class="keyword">if</span> step % <span class="number">20</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">"&#123;&#125; step, weights = &#123;&#125;, biases = &#123;&#125;"</span>.format(step, Weights.read_value(), biases.read_value()))  <span class="comment"># read_value函数可用numpy替换</span></span><br></pre></td></tr></table></figure><p>运行结果</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">0 step, weights &#x3D; [-0.07186383], biases &#x3D; [0.53049165]</span><br><span class="line">20 step, weights &#x3D; [0.04541961], biases &#x3D; [0.32863754]</span><br><span class="line">40 step, weights &#x3D; [0.08702482], biases &#x3D; [0.3068079]</span><br><span class="line">60 step, weights &#x3D; [0.09691547], biases &#x3D; [0.30161843]</span><br><span class="line">80 step, weights &#x3D; [0.09926673], biases &#x3D; [0.30038476]</span><br><span class="line">100 step, weights &#x3D; [0.0998257], biases &#x3D; [0.30009148]</span><br><span class="line">120 step, weights &#x3D; [0.09995857], biases &#x3D; [0.30002174]</span><br><span class="line">140 step, weights &#x3D; [0.09999017], biases &#x3D; [0.30000517]</span><br><span class="line">160 step, weights &#x3D; [0.09999766], biases &#x3D; [0.30000123]</span><br><span class="line">180 step, weights &#x3D; [0.09999946], biases &#x3D; [0.3000003]</span><br><span class="line">200 step, weights &#x3D; [0.09999989], biases &#x3D; [0.30000007]</span><br></pre></td></tr></table></figure><p>最终预测出的答案和正确答案很接近</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;使用tensorflow2-0-进行线性拟合&quot;&gt;&lt;a href=&quot;#使用tensorflow2-0-进行线性拟合&quot; class=&quot;headerlink&quot; title=&quot;使用tensorflow2.0 进行线性拟合&quot;&gt;&lt;/a&gt;使用tensorflow2.0 进行线性
       
     
     </summary>
