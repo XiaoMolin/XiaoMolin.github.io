@@ -83,18 +83,26 @@
 
 
 
-<meta name="description" content="go">
+<meta name="description" content="数组概述数组是由相同类型元素的集合组成的数据结构，计算机会为数组分配一块连续的内存来保存其中的元素，我们可以利用数组中元素的索引快速访问元素对应的存储地址。 数组表示方法12[10]int[200]interface&amp;#123;&amp;#125;  与很多语言不同，Go 语言中数组在初始化之后大小就无法改变，存储元素类型相同、但是大小不同的数组类型在 Go 语言看来也是完全不同的，只有两个条件都相同才是">
 <meta property="og:type" content="article">
 <meta property="og:title" content="go笔记1">
 <meta property="og:url" content="http://yoursite.com/2020/03/15/go%E7%AC%94%E8%AE%B01/index.html">
 <meta property="og:site_name" content="林小墨的博客">
-<meta property="og:description" content="go">
+<meta property="og:description" content="数组概述数组是由相同类型元素的集合组成的数据结构，计算机会为数组分配一块连续的内存来保存其中的元素，我们可以利用数组中元素的索引快速访问元素对应的存储地址。 数组表示方法12[10]int[200]interface&amp;#123;&amp;#125;  与很多语言不同，Go 语言中数组在初始化之后大小就无法改变，存储元素类型相同、但是大小不同的数组类型在 Go 语言看来也是完全不同的，只有两个条件都相同才是">
+<meta property="og:image" content="https://img.draveness.me/2019-02-20-golang-slice-struct.png">
+<meta property="og:image" content="https://www.lxmcloud.cn/images/blog/gonote/gostringmenory.jpg">
+<meta property="og:image" content="https://img.draveness.me/2019-12-30-15777168478785-open-addressing-and-set.png">
+<meta property="og:image" content="https://img.draveness.me/2019-12-30-15777168478791-open-addressing-and-get.png">
+<meta property="og:image" content="https://img.draveness.me/2019-12-30-15777168478798-separate-chaing-and-set.png">
+<meta property="og:image" content="https://img.draveness.me/2019-12-30-15777168478804-separate-chaing-and-get.png">
+<meta property="og:image" content="https://img.draveness.me/2019-12-30-15777168478811-hmap-and-buckets.png">
 <meta property="article:published_time" content="2020-03-15T03:37:08.000Z">
-<meta property="article:modified_time" content="2020-03-15T03:43:41.320Z">
+<meta property="article:modified_time" content="2020-03-15T07:09:08.517Z">
 <meta property="article:author" content="林小墨">
 <meta property="article:tag" content="go">
 <meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.draveness.me/2019-02-20-golang-slice-struct.png">
 
 
 
@@ -351,7 +359,129 @@
       
 
       
-        <p>go</p>
+        <h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>数组是由相同类型元素的集合组成的数据结构，计算机会为数组分配一块连续的内存来保存其中的元素，我们可以利用数组中元素的索引快速访问元素对应的存储地址。</p>
+<h4 id="数组表示方法"><a href="#数组表示方法" class="headerlink" title="数组表示方法"></a>数组表示方法</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">10</span>]<span class="keyword">int</span></span><br><span class="line">[<span class="number">200</span>]<span class="keyword">interface</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与很多语言不同，Go 语言中数组在初始化之后大小就无法改变，存储元素类型相同、但是大小不同的数组类型在 Go 语言看来也是完全不同的，只有两个条件都相同才是同一个类型。</p>
+<h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arr1 := [<span class="number">3</span>]<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">如果不知道数组的长度可以使用...</span><br><span class="line">arr2:=[...]<span class="keyword">int</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;</span><br><span class="line">此时数组长度为元素的个数</span><br></pre></td></tr></table></figure>
+
+<p>上述两种声明方式在运行期间得到的结果是完全相同的，后一种声明方式在编译期间就会被『转换』成为前一种</p>
+<h4 id="访问和赋值"><a href="#访问和赋值" class="headerlink" title="访问和赋值"></a>访问和赋值</h4><p>数组在内存中其实就是一连串的内存空间，表示数组的方法就是一个指向数组开头的指针、数组中元素的数量以及数组中元素类型占的空间大小</p>
+<h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><h4 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h4><p>切片就是动态数组（是数组的引用），它的长度并不固定，我们可以随意向切片中追加元素，而切片会在容量不足时自动扩容。</p>
+<h4 id="切片表示方法"><a href="#切片表示方法" class="headerlink" title="切片表示方法"></a>切片表示方法</h4><p>在 Go 语言中，切片类型的声明方式与数组有一些相似，由于切片的长度是动态的，所以声明时只需要指定切片中的元素类型：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[]<span class="keyword">int</span></span><br><span class="line">[]<span class="keyword">interface</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h4><p>编译期间的切片是 <code>Slice</code> 类型的，但是在运行时切片由如下的 <code>SliceHeader</code> 结构体表示，其中 <code>Data</code> 字段是指向数组的指针，<code>Len</code> 表示当前切片的长度，而 <code>Cap</code> 表示当前切片的容量，也就是 <code>Data</code> 数组的大小：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> SliceHeader <span class="keyword">struct</span> &#123;</span><br><span class="line">	Data <span class="keyword">uintptr</span></span><br><span class="line">	Len  <span class="keyword">int</span></span><br><span class="line">	Cap  <span class="keyword">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Data</code> 作为一个指针指向的数组是一片连续的内存空间，这片内存空间可以用于存储切片中保存的全部元素，数组中的元素只是逻辑上的概念，底层存储其实都是连续的，所以我们可以将切片理解成一片连续的内存空间加上长度与容量的标识。</p>
+<p><img src="https://img.draveness.me/2019-02-20-golang-slice-struct.png" alt=""></p>
+<h3 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h3><p>Go 语言中的切片有三种初始化的方式：</p>
+<ol>
+<li>通过下标的方式获得数组或者切片的一部分；</li>
+<li>使用字面量初始化新的切片；</li>
+<li>使用关键字 <code>make</code> 创建切片：</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">arr:=[...]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;</span><br><span class="line">slice:=arr[<span class="number">1</span>:]</span><br><span class="line">slice := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">slice := <span class="built_in">make</span>([]<span class="keyword">int</span>, <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果当前的切片不会发生逃逸并且切片非常小的时候，<code>make([]int, 3, 4)</code> 会被直接转换成如下所示的代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr [<span class="number">4</span>]<span class="keyword">int</span></span><br><span class="line">n := arr[:<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="追加和覆盖"><a href="#追加和覆盖" class="headerlink" title="追加和覆盖"></a>追加和覆盖</h4><p>内建函数 append将元素追加到切片的末尾,若它有足够的容量,其目标就会重新切片以容纳新的元素.否则,就会分配一个新的基本数组,append返回更新后的切片,因此必须储追加后的结果</p>
+<p>切片 append操作的底层原理分析<br>1)切片 append操作的本质就是对数组扩容<br>2)go底层会创建一下新的数组 newArr安装扩容后大<br>3)将slice原来包含的元素拷贝到新的数组 newArr<br>4)slice重新引用到 newArr<br>5)注意 newArr是在底层来维护的,程序员不可见</p>
+<h4 id="拷贝切片"><a href="#拷贝切片" class="headerlink" title="拷贝切片"></a>拷贝切片</h4><p>两个必须都是切片才可以拷贝,copy是深拷贝这个操作还是会占用非常多的资源，在大切片上执行拷贝操作时一定要注意性能影响。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var slice1 []int &#x3D;[]int&#123;1,2,3,4,5&#125; </span><br><span class="line">var slice2 &#x3D;make([]int, 10)</span><br><span class="line">copy (slice1, slice2)</span><br></pre></td></tr></table></figure>
+
+<p>浅拷贝:拷贝的是对象的指针,修改内容互相影响<br>深拷贝:整个对象拷贝到另一个内存中,修改内容互不影响</p>
+<h3 id="字符串string"><a href="#字符串string" class="headerlink" title="字符串string"></a>字符串string</h3><p>字符串虽然在 Go 语言中是基本类型 <code>string</code>，但是它实际上是由字符组成的数组，作为数组会占用一片连续的内存空间，这片内存空间存储了的字节共同组成了字符串，Go 语言中的字符串其实是一个只读的字节数组。</p>
+<p>举个例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str:&#x3D;&quot;abcd&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在内存中的存储形式：</p>
+<p><img src="https://www.lxmcloud.cn/images/blog/gonote/gostringmenory.jpg" alt=""></p>
+<p>只读只意味着字符串会分配到只读的内存空间并且这块内存不会被修改，但是在运行时我们其实还是可以将这段内存拷贝到堆或者栈上，将变量的类型转换成 <code>[]byte</code> 之后就可以进行，修改后通过类型转换就可以变回 <code>string</code>，Go 语言只是不支持直接修改 <code>string</code> 类型变量的内存空间。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//细节,我们转成[]byte后,可以处理英文和数字,但是不能处理中文</span></span><br><span class="line"><span class="comment">//原因是[]byte字节来处理,而一个汉字,是3个字节,因此就会出现乱码</span></span><br><span class="line"><span class="comment">//解决方法是将 string转成[]rune即可,因为[]rune是按字符处理,兼容汉字</span></span><br><span class="line">str:=<span class="string">"abc你"</span></span><br><span class="line">arr1:=[]<span class="keyword">rune</span>(str)</span><br><span class="line">arr1[<span class="number">1</span>]=<span class="string">"我"</span></span><br><span class="line">str=<span class="keyword">string</span>(arr1)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="数据结构-1"><a href="#数据结构-1" class="headerlink" title="数据结构"></a>数据结构</h4><p>字符串在 Go 语言中的接口其实非常简单，每一个字符串在运行时都会使用如下的 <code>StringHeader</code> 结构体表示，在运行时包的内部其实有一个私有的结构 <code>stringHeader</code>，它有着完全相同的结构只是用于存储数据的 <code>Data</code> 字段使用了 <code>unsafe.Pointer</code> 类型：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> StringHeader <span class="keyword">struct</span> &#123;</span><br><span class="line">	Data <span class="keyword">uintptr</span></span><br><span class="line">	Len  <span class="keyword">int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们会经常会说字符串是一个只读的<a href="https://draveness.me/golang/docs/part2-foundation/ch03-datastructure/golang-array-and-slice/" target="_blank" rel="noopener">切片</a>类型，这是因为切片在 Go 语言的运行时表示与字符串高度相似，与切片的结构体相比，字符串少了一个表示容量的 <code>Cap</code> 字段，因为字符串作为只读的类型，我们并不会直接向字符串直接追加元素改变其本身的内存空间，所有在字符串上执行的写入操作实际都是通过拷贝实现的。</p>
+<h4 id="拼接"><a href="#拼接" class="headerlink" title="拼接"></a>拼接</h4><p>Go 语言拼接字符串会使用 <code>+</code> 符号</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">str1:=<span class="string">"abcd"</span></span><br><span class="line">str2:=<span class="string">"efg"</span></span><br><span class="line">str1+=str2</span><br></pre></td></tr></table></figure>
+
+<p>在正常情况下，运行时会调用 <code>copy</code> 将输入的多个字符串拷贝到目标字符串所在的内存空间中，新的字符串是一片新的内存空间，与原来的字符串也没有任何关联，一旦需要拼接的字符串非常大，拷贝带来的性能损失就是无法忽略的。</p>
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><h4 id="设计原理"><a href="#设计原理" class="headerlink" title="设计原理"></a>设计原理</h4><p>哈希表是计算机科学中的最重要数据结构之一，这不仅因为它 <code>O(1)</code> 的读写性能非常优秀，还因为它提供了键值之间的映射。想要实现一个性能优异的哈希表，需要注意两个关键点 —— 哈希函数和冲突解决方法。</p>
+<h5 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h5><p>实现哈希表的关键点在于如何选择哈希函数，哈希函数的选择在很大程度上能够决定哈希表的读写性能，在理想情况下，哈希函数应该能够将不同键能够地映射到不同的索引上，这要求<strong>哈希函数输出范围大于输入范围</strong>，但是由于键的数量会远远大于映射的范围，所以在实际使用时，这个理想的结果是不可能实现的。</p>
+<p>在一个使用结果较为均匀的哈希函数中，哈希的增删改查都需要 <code>O(1)</code> 的时间复杂度，但是非常不均匀的哈希函数会导致所有的操作都会占用最差 <code>O(n)</code> 的复杂度，所以在哈希表中使用好的哈希函数是至关重要的。</p>
+<h5 id="冲突解决"><a href="#冲突解决" class="headerlink" title="冲突解决"></a>冲突解决</h5><p>在通常情况下，哈希函数输入的范围一定会远远大于输出的范围，所以在使用哈希表时一定会遇到冲突，哪怕我们使用了完美的哈希函数，当输入的键足够多最终也会造成冲突。然而我们的哈希函数往往都是不完美的，输出的范围是有限的，所以一定会发生哈希碰撞，这时就需要一些方法来解决哈希碰撞的问题，常见方法的就是开放寻址法和拉链法。</p>
+<h6 id="开放寻址法"><a href="#开放寻址法" class="headerlink" title="开放寻址法"></a>开放寻址法</h6><p>开放寻址法是一种在哈希表中解决哈希碰撞的方法，这种方法的核心思想是<strong>对数组中的元素依次探测和比较以判断目标键值对是否存在于哈希表中</strong>，如果我们使用开放寻址法来实现哈希表，那么在支撑哈希表的数据结构就是数组，不过因为数组的长度有限，存储 <code>(author, draven)</code> 这个键值对时会从如下的索引开始遍历：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index := hash(<span class="string">"author"</span>) % array.<span class="built_in">len</span></span><br></pre></td></tr></table></figure>
+
+<p>当我们向当前哈希表写入新的数据时发生了冲突，就会将键值对写入到下一个不为空的位置：</p>
+<p><img src="https://img.draveness.me/2019-12-30-15777168478785-open-addressing-and-set.png" alt="open-addressing-and-set"></p>
+<p><strong>开放地址法写入数据</strong></p>
+<p>如上图所示，当 Key3 与已经存入哈希表中的两个键值对 Key1 和 Key2 发生冲突时，Key3 会被写入 Key2 后面的空闲内存中；当我们再去读取 Key3 对应的值时就会先对键进行哈希并取模，这会帮助我们找到 Key1，因为 Key1 与我们期望的键 Key3 不匹配，所以会继续查找后面的元素，直到内存为空或者找到目标元素。</p>
+<p><img src="https://img.draveness.me/2019-12-30-15777168478791-open-addressing-and-get.png" alt="open-addressing-and-get"></p>
+<p><strong>开放地址法读取数据</strong></p>
+<p>当需要查找某个键对应的值时，就会从索引的位置开始对数组进行线性探测，找到目标键值对或者空内存就意味着这一次查询操作的结束。</p>
+<p>开放寻址法中对性能影响最大的就是<strong>装载因子</strong>，它是数组中元素的数量与数组大小的比值，随着装载因子的增加，线性探测的平均用时就会逐渐增加，这会同时影响哈希表的读写性能，当装载率超过 70% 之后，哈希表的性能就会急剧下降，而一旦装载率达到 100%，整个哈希表就会完全失效，这时查找任意元素都需要遍历数组中全部的元素，所以在实现哈希表时一定要时刻关注装载因子的变化。</p>
+<h6 id="拉链法"><a href="#拉链法" class="headerlink" title="拉链法"></a>拉链法</h6><p>与开放地址法相比，拉链法是哈希表中最常见的实现方法，大多数的编程语言都用拉链法实现哈希表，它的实现比较开放地址法稍微复杂一些，但是平均查找的长度也比较短，各个用于存储节点的内存都是动态申请的，可以节省比较多的存储空间。</p>
+<p>实现拉链法一般会使用数组加上链表，不过有一些语言会在拉链法的哈希中引入红黑树以优化性能，拉链法会使用链表数组作为哈希底层的数据结构，我们可以将它看成一个可以扩展的『二维数组』：</p>
+<p><img src="https://img.draveness.me/2019-12-30-15777168478798-separate-chaing-and-set.png" alt="separate-chaing-and-set"></p>
+<p><strong>图 3-10 拉链法写入数据</strong></p>
+<p>如上图所示，当我们需要将一个键值对 <code>(Key6, Value6)</code> 写入哈希表时，键值对中的键 <code>Key6</code> 都会先经过一个哈希函数，哈希函数返回的哈希会帮助我们选择一个桶，和开放地址法一样，选择桶的方式就是直接对哈希返回的结果取模：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index := hash(<span class="string">"Key6"</span>) % array.<span class="built_in">len</span></span><br></pre></td></tr></table></figure>
+
+<p>选择了 2 号桶之后就可以遍历当前桶中的链表了，在遍历链表的过程中会遇到以下两种情况：</p>
+<ol>
+<li>找到键相同的键值对 —— 更新键对应的值；</li>
+<li>没有找到键相同的键值对 —— 在链表的末尾追加新键值对；</li>
+</ol>
+<p>将键值对写入哈希之后，要通过某个键在其中获取映射的值，就会经历如下的过程：</p>
+<p><img src="https://img.draveness.me/2019-12-30-15777168478804-separate-chaing-and-get.png" alt="separate-chaing-and-get"></p>
+<p><strong>图 3-11 拉链法读取数据</strong></p>
+<p>Key11 展示了一个键在哈希表中不存在的例子，当哈希表发现它命中 4 号桶时，它会依次遍历桶中的链表，然而遍历到链表的末尾也没有找到期望的键，所以哈希表中没有该键对应的值。</p>
+<p>在一个性能比较好的哈希表中，每一个桶中都应该有 0<del>1 个元素，有时会有 2</del>3 个，很少会超过这个数量，计算哈希、定位桶和遍历链表三个过程是哈希表读写操作的主要开销，使用拉链法实现的哈希也有装载因子这一概念：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">装载因子 :&#x3D; 元素数量 &#x2F; 桶数量</span><br></pre></td></tr></table></figure>
+
+<p>与开放地址法一样，拉链法的装载因子越大，哈希的读写性能就越差，在一般情况下使用拉链法的哈希表装载因子都不会超过 1，当哈希表的装载因子较大时就会触发哈希的扩容，创建更多的桶来存储哈希中的元素，保证性能不会出现严重的下降。如果有 1000 个桶的哈希表存储了 10000 个键值对，它的性能是保存 1000 个键值对的 1/10，但是仍然比在链表中直接读写好 1000 倍。</p>
+<h4 id="数据结构-2"><a href="#数据结构-2" class="headerlink" title="数据结构"></a>数据结构</h4><p>Go 语言运行时同时使用了多个数据结构组合表示哈希表，其中使用 hmap 结构体来表示哈希</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> hmap <span class="keyword">struct</span> &#123;</span><br><span class="line">	count     <span class="keyword">int</span></span><br><span class="line">	flags     <span class="keyword">uint8</span></span><br><span class="line">	B         <span class="keyword">uint8</span></span><br><span class="line">	noverflow <span class="keyword">uint16</span></span><br><span class="line">	hash0     <span class="keyword">uint32</span></span><br><span class="line"></span><br><span class="line">	buckets    unsafe.Pointer</span><br><span class="line">	oldbuckets unsafe.Pointer</span><br><span class="line">	nevacuate  <span class="keyword">uintptr</span></span><br><span class="line"></span><br><span class="line">	extra *mapextra</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>count</code> 表示当前哈希表中的元素数量；</li>
+<li><code>B</code> 表示当前哈希表持有的 <code>buckets</code> 数量，但是因为哈希表中桶的数量都 2 的倍数，所以该字段会存储对数，也就是 <code>len(buckets) == 2^B</code>；</li>
+<li><code>hash0</code> 是哈希的种子，它能为哈希函数的结果引入随机性，这个值在创建哈希表时确定，并在调用哈希函数时作为参数传入；</li>
+<li><code>oldbuckets</code> 是哈希在扩容时用于保存之前 <code>buckets</code> 的字段，它的大小是当前 <code>buckets</code> 的一半；</li>
+</ol>
+<p><img src="https://img.draveness.me/2019-12-30-15777168478811-hmap-and-buckets.png" alt="hmap-and-buckets"></p>
+<p>如上图所示哈希表 <code>hmap</code> 的桶就是 <code>bmap</code>，每一个 <code>bmap</code> 都能存储 8 个键值对，当哈希表中存储的数据过多，单个桶无法装满时就会使用 <code>extra.overflow</code> 中桶存储溢出的数据。上述两种不同的桶在内存中是连续存储的，我们在这里将它们分别称为正常桶和溢出桶，上图中黄色的 <code>bmap</code> 就是正常桶，绿色的 <code>bmap</code> 是溢出桶，溢出桶是在 Go 语言还使用 C 语言实现时就使用的设计<a href="https://draveness.me/golang/docs/part2-foundation/ch03-datastructure/golang-hashmap/#fn:3" target="_blank" rel="noopener">3</a>，由于它能够减少扩容的频率所以一直使用至今。</p>
+<p>这个桶的结构体 <code>bmap</code> 在 Go 语言源代码中的定义只包含一个简单的 <code>tophash</code> 字段，<code>tophash</code> 存储了键的哈希的高 8 位，通过比较不同键的哈希的高 8 位可以减少访问键值对次数以提高性能：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> bmap <span class="keyword">struct</span> &#123;</span><br><span class="line">	tophash [bucketCnt]<span class="keyword">uint8</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>bmap</code> 结构体其实不止包含 <code>tophash</code> 字段，由于哈希表中可能存储不同类型的键值对并且 Go 语言也不支持泛型，所以键值对占据的内存空间大小只能在编译时进行推导，这些字段在运行时也都是通过计算内存地址的方式直接访问的，所以它的定义中就没有包含这些字段，但是我们能根据编译期间的 <a href="https://github.com/golang/go/blob/be64a19d99918c843f8555aad580221207ea35bc/src/cmd/compile/internal/gc/reflect.go#L82-L187" target="_blank" rel="noopener"><code>cmd/compile/internal/gc.bmap</code></a> 函数对它的结构重建：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> bmap <span class="keyword">struct</span> &#123;</span><br><span class="line">    topbits  [<span class="number">8</span>]<span class="keyword">uint8</span></span><br><span class="line">    keys     [<span class="number">8</span>]keytype</span><br><span class="line">    values   [<span class="number">8</span>]valuetype</span><br><span class="line">    pad      <span class="keyword">uintptr</span></span><br><span class="line">    overflow <span class="keyword">uintptr</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果哈希表存储的数据逐渐增多，我们会对哈希表进行扩容或者使用额外的桶存储溢出的数据，不会让单个桶中的数据超过 8 个，不过溢出桶只是临时的解决方案，创建过多的溢出桶最终也会导致哈希的扩容。</p>
+<p>从 Go 语言哈希的定义中就可以发现，它比前面两节提到的数组和切片复杂得多，结构体中不仅包含大量字段，还使用了较多的复杂结构，在后面的小节中我们会详细介绍不同字段的作用。</p>
+<h4 id="初始化-2"><a href="#初始化-2" class="headerlink" title="初始化"></a>初始化</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hash := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>&#123;</span><br><span class="line">	<span class="string">"1"</span>: <span class="number">2</span>,</span><br><span class="line">	<span class="string">"3"</span>: <span class="number">4</span>,</span><br><span class="line">	<span class="string">"5"</span>: <span class="number">6</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//如果只是声明的话需要make分配内存后才能使用</span></span><br><span class="line"><span class="keyword">var</span> a <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span></span><br><span class="line">a=<span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>,<span class="number">10</span>)</span><br><span class="line"><span class="comment">//也可以合并两步</span></span><br><span class="line">a:=<span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>,<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="增加和删除"><a href="#增加和删除" class="headerlink" title="增加和删除"></a>增加和删除</h4><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">map</span>[<span class="string">"key"</span>]=value<span class="comment">//如果key还没有，就是增加，如果有就是修改</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">delete</span><span class="params">(m <span class="keyword">map</span>[Type]Type1,key Type)</span></span></span><br><span class="line"><span class="comment">//内建函数delete按照指定的健值将元素从映射中删除，若m为nil或无此元素，delete不进行操作</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h4><p>map是引用类型,遵守引用类型传递的机制在一个函数接收map,修改后,会直接修改原来的map</p>
+<p>map的容量达到后,再想map增加元素,会自动扩容,并不会发生 panic,也就是说map能动态的增长键值对( key-value)</p>
+<p>map的value也经常使用 struct 类型,更适合管理复杂的数据(比前面value是一个map更好)</p>
+<p>引用：<a href="https://draveness.me/golang/" target="_blank" rel="noopener">https://draveness.me/golang/</a></p>
 
       
     </div>
@@ -444,8 +574,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -526,6 +665,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组"><span class="nav-number">1.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概述"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组表示方法"><span class="nav-number">1.2.</span> <span class="nav-text">数组表示方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化"><span class="nav-number">1.3.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#访问和赋值"><span class="nav-number">1.4.</span> <span class="nav-text">访问和赋值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切片"><span class="nav-number">2.</span> <span class="nav-text">切片</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概述-1"><span class="nav-number">2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#切片表示方法"><span class="nav-number">2.2.</span> <span class="nav-text">切片表示方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据结构"><span class="nav-number">2.3.</span> <span class="nav-text">数据结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化-1"><span class="nav-number">3.</span> <span class="nav-text">初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#追加和覆盖"><span class="nav-number">3.1.</span> <span class="nav-text">追加和覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拷贝切片"><span class="nav-number">3.2.</span> <span class="nav-text">拷贝切片</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串string"><span class="nav-number">4.</span> <span class="nav-text">字符串string</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据结构-1"><span class="nav-number">4.1.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拼接"><span class="nav-number">4.2.</span> <span class="nav-text">拼接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哈希表"><span class="nav-number">5.</span> <span class="nav-text">哈希表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计原理"><span class="nav-number">5.1.</span> <span class="nav-text">设计原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#哈希函数"><span class="nav-number">5.1.1.</span> <span class="nav-text">哈希函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#冲突解决"><span class="nav-number">5.1.2.</span> <span class="nav-text">冲突解决</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#开放寻址法"><span class="nav-number">5.1.2.1.</span> <span class="nav-text">开放寻址法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#拉链法"><span class="nav-number">5.1.2.2.</span> <span class="nav-text">拉链法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据结构-2"><span class="nav-number">5.2.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化-2"><span class="nav-number">5.3.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增加和删除"><span class="nav-number">5.4.</span> <span class="nav-text">增加和删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#细节"><span class="nav-number">5.5.</span> <span class="nav-text">细节</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
