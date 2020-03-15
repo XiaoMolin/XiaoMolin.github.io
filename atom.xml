@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-03-15T03:18:45.128Z</updated>
+  <updated>2020-03-15T03:43:41.320Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>go笔记1</title>
+    <link href="http://yoursite.com/2020/03/15/go%E7%AC%94%E8%AE%B01/"/>
+    <id>http://yoursite.com/2020/03/15/go%E7%AC%94%E8%AE%B01/</id>
+    <published>2020-03-15T03:37:08.000Z</published>
+    <updated>2020-03-15T03:43:41.320Z</updated>
+    
+    <content type="html"><![CDATA[<p>go</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;go&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="go" scheme="http://yoursite.com/categories/go/"/>
+    
+    
+      <category term="go" scheme="http://yoursite.com/tags/go/"/>
+    
+      <category term="笔记" scheme="http://yoursite.com/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>力扣-97</title>
